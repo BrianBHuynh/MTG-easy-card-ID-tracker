@@ -9,7 +9,7 @@ func _ready() -> void:
 	process_text()
 
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if time_since_last_refresh > 120:
 		process_text()
 		time_since_last_refresh = 0
