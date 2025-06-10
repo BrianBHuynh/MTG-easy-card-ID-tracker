@@ -7,26 +7,59 @@ script = ExtResource("1_3jpjp")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 clip_contents = true
-custom_minimum_size = Vector2(1920, 1080)
 offset_right = 1920.0
 offset_bottom = 1080.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
+[node name="SetID" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer/SetID"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Set ID"
+fit_content = true
+
+[node name="SetID" type="LineEdit" parent="VBoxContainer/SetID"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "SetID"
+
+[node name="Range" type="HBoxContainer" parent="VBoxContainer"]
+clip_contents = true
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer/Range"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Looking for (Min and Max)
+"
+fit_content = true
+
+[node name="Min" type="LineEdit" parent="VBoxContainer/Range"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Min"
+
+[node name="Max" type="LineEdit" parent="VBoxContainer/Range"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Max"
+
 [node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
-layout_mode = 2
-
-[node name="LineEdit" type="LineEdit" parent="VBoxContainer/HBoxContainer"]
+[node name="LineEdit" type="LineEdit" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Input please"
 keep_editing_on_text_submit = true
 
-[node name="Button" type="Button" parent="VBoxContainer/HBoxContainer"]
-layout_mode = 2
-
-[connection signal="text_submitted" from="VBoxContainer/HBoxContainer/LineEdit" to="." method="_on_line_edit_text_submitted"]
+[connection signal="text_submitted" from="VBoxContainer/SetID/SetID" to="." method="process_text"]
+[connection signal="text_submitted" from="VBoxContainer/Range/Min" to="." method="process_text"]
+[connection signal="text_submitted" from="VBoxContainer/Range/Max" to="." method="process_text"]
+[connection signal="text_submitted" from="VBoxContainer/LineEdit" to="." method="_on_line_edit_text_submitted"]
