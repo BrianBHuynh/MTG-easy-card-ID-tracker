@@ -60,3 +60,12 @@ func _on_line_edit_text_submitted(new_text: String) -> void:
 	process_text()
 	$VBoxContainer/LineEdit.text = ""
 	Saves.save_game()
+
+
+func _on_copy_all_button_pressed() -> void:
+	DisplayServer.clipboard_set(str(Saves.data))
+
+
+func _on_copy_set_pressed() -> void:
+		if Saves.data is Dictionary and Saves.data.has($VBoxContainer/SetID/SetID.text) and Saves.data[$VBoxContainer/SetID/SetID.text] is Dictionary:
+			DisplayServer.clipboard_set(str(Saves.data[$VBoxContainer/SetID/SetID.text]))

@@ -55,6 +55,15 @@ size_flags_horizontal = 3
 placeholder_text = "Input please"
 keep_editing_on_text_submit = true
 
+[node name="CopySet" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Copy Set
+"
+
+[node name="CopyAll" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Copy all data"
+
 [node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
@@ -63,3 +72,5 @@ size_flags_vertical = 3
 [connection signal="text_submitted" from="VBoxContainer/Range/Min" to="." method="process_text"]
 [connection signal="text_submitted" from="VBoxContainer/Range/Max" to="." method="process_text"]
 [connection signal="text_submitted" from="VBoxContainer/LineEdit" to="." method="_on_line_edit_text_submitted"]
+[connection signal="pressed" from="VBoxContainer/CopySet" to="." method="_on_copy_set_pressed"]
+[connection signal="pressed" from="VBoxContainer/CopyAll" to="." method="_on_copy_all_button_pressed"]
