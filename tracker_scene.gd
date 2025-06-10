@@ -19,12 +19,14 @@ func _physics_process(_delta: float) -> void:
 
 func process_text(_input: String = "") -> void:
 	var unacquired_list: String = "Unaquired: "
+	var unacquired_num: int = 0
 	var extras: Dictionary = {}
 	var extras_string: String = "extras: "
 	var out_of_range: String = "Out of Range: "
 	for i in int($VBoxContainer/Range/Max.text) - int($VBoxContainer/Range/Min.text) + 1:
 		if Saves.get_or_return($VBoxContainer/SetID/SetID.text, str(i + int($VBoxContainer/Range/Min.text)), 0) == 0:
 			unacquired_list = unacquired_list + " " + str(i + int($VBoxContainer/Range/Min.text))
+			unacquired_num = unacquired_num + 1
 	if Saves.data is Dictionary and Saves.data.has($VBoxContainer/SetID/SetID.text) and Saves.data[$VBoxContainer/SetID/SetID.text] is Dictionary:
 		for key in Saves.data[$VBoxContainer/SetID/SetID.text].keys():
 			if Saves.data[$VBoxContainer/SetID/SetID.text][key] > 0:
@@ -35,7 +37,7 @@ func process_text(_input: String = "") -> void:
 		if extras[key] > 1:
 			extras_string = extras_string + " [" + str(key) + ", " + str(extras[key] - 1) + "] " 
 	$VBoxContainer/RichTextLabel.text = (
-		unacquired_list + "\n" + extras_string + "\n" + out_of_range + "\n\n\n All cards: " + str(Saves.data.get($VBoxContainer/SetID/SetID.text, "No cards"))
+		unacquired_list + "\nunacquired num = " + str(unacquired_num) + "\n\n" + extras_string + "\n\n" + out_of_range + "\n\n\n All cards: " + str(Saves.data.get($VBoxContainer/SetID/SetID.text, "No cards"))
 	)
 
 

@@ -49,15 +49,15 @@ layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Max"
 
-[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
 [node name="LineEdit" type="LineEdit" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Input please"
 keep_editing_on_text_submit = true
+
+[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
 
 [connection signal="text_submitted" from="VBoxContainer/SetID/SetID" to="." method="process_text"]
 [connection signal="text_submitted" from="VBoxContainer/Range/Min" to="." method="process_text"]
