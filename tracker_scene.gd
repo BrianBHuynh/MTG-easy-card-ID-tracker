@@ -53,14 +53,22 @@ func process_text(_input: String = "") -> void:
 	)
 
 
-func _on_line_edit_text_submitted(new_text: String) -> void:
+func _on_card_submitted(new_text: String) -> void:
 	if new_text != "":
 		Saves.set_value($VBoxContainer/SetID/SetID.text, str(int(new_text)), int(Saves.get_or_return($VBoxContainer/SetID/SetID.text, new_text, 0) + 1))
 	last_input = int(new_text)
 	process_text()
-	$VBoxContainer/LineEdit.text = ""
+	$VBoxContainer/Add.text = ""
 	Saves.save_game()
 
+
+func _on_card_removed(new_text: String) -> void:
+	if new_text != "":
+		Saves.set_value($VBoxContainer/SetID/SetID.text, str(int(new_text)), int(Saves.get_or_return($VBoxContainer/SetID/SetID.text, new_text, 0) -1))
+	last_input = int(new_text)
+	process_text()
+	$VBoxContainer/Remove.text = ""
+	Saves.save_game()
 
 func _on_copy_all_button_pressed() -> void:
 	DisplayServer.clipboard_set(str(Saves.data))

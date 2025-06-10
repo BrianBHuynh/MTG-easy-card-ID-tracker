@@ -49,10 +49,16 @@ layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Max"
 
-[node name="LineEdit" type="LineEdit" parent="VBoxContainer"]
+[node name="Add" type="LineEdit" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-placeholder_text = "Input please"
+placeholder_text = "Add Card"
+keep_editing_on_text_submit = true
+
+[node name="Remove" type="LineEdit" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Remove Card"
 keep_editing_on_text_submit = true
 
 [node name="CopySet" type="Button" parent="VBoxContainer"]
@@ -71,6 +77,7 @@ size_flags_vertical = 3
 [connection signal="text_submitted" from="VBoxContainer/SetID/SetID" to="." method="process_text"]
 [connection signal="text_submitted" from="VBoxContainer/Range/Min" to="." method="process_text"]
 [connection signal="text_submitted" from="VBoxContainer/Range/Max" to="." method="process_text"]
-[connection signal="text_submitted" from="VBoxContainer/LineEdit" to="." method="_on_line_edit_text_submitted"]
+[connection signal="text_submitted" from="VBoxContainer/Add" to="." method="_on_card_submitted"]
+[connection signal="text_submitted" from="VBoxContainer/Remove" to="." method="_on_card_removed"]
 [connection signal="pressed" from="VBoxContainer/CopySet" to="." method="_on_copy_set_pressed"]
 [connection signal="pressed" from="VBoxContainer/CopyAll" to="." method="_on_copy_all_button_pressed"]
