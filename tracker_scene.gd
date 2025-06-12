@@ -9,6 +9,10 @@ var last_input: int = -1
 
 func _ready() -> void:
 	process_text()
+	while($VBoxContainer/Range/Min == null and Saves.save_loaded == false):
+		await get_tree().process_frame
+	$VBoxContainer/Range/Min.text = Saves.get_or_return("Settings", "min", "1")
+	$VBoxContainer/Range/Max.text = Saves.get_or_return("Settings", "max", "1")
 
 
 func _physics_process(_delta: float) -> void:
@@ -57,7 +61,17 @@ func process_text(_input: String = "") -> void:
 	if $VBoxContainer/HBoxContainer/OutOfRange.button_pressed:
 		final_string = final_string + "\n\n" + out_of_range
 	if $VBoxContainer/HBoxContainer/PlaySets.button_pressed:
-		final_string = final_string + "\n\n" + play_sets + "\n\n\n All cards: " + str(Saves.data.get($VBoxContainer/SetID/SetID.text, "No cards")) 
+		final_string = final_string + "\n\n" + play_sets
+	if $VBoxContainer/HBoxContainer/AllCardsInSet.button_pressed:
+		var temp: Array = []
+		for card in Saves.data.get($VBoxContainer/SetID/SetID.text, ["No cards"]):
+			temp.append(int(card))
+		temp.sort()
+		var temp_2_electric_boogalo: Dictionary = {}
+		for card in temp:
+			temp_2_electric_boogalo.set(card, int(Saves.get_or_return($VBoxContainer/SetID/SetID.text, str(card), "0")))
+		final_string = final_string + "\n\n\n All cards: " + str(temp_2_electric_boogalo) 
+		
 	final_string = final_string + "\n\n\nLast Input: " + str(last_input)
 	$VBoxContainer/RichTextLabel.text = final_string
 
@@ -94,3 +108,9 @@ func _on_copy_set_pressed() -> void:
 
 func set_new_card_display(enabled: bool) -> void:
 	$VBoxContainer/ColorRect.visible = enabled
+
+
+func set_min_max(_text: String) -> void:
+	Saves.set_value("Settings", "min", $VBoxContainer/Range/Min.text)
+	Saves.set_value("Settings", "max", $VBoxContainer/Range/Max.text)
+	Saves.save_game()
