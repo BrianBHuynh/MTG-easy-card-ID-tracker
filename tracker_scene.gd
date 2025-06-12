@@ -1,6 +1,7 @@
 extends Node2D
 
 
+var set_id: Dictionary = {}
 var special_list: Dictionary
 var num: int = 310
 var time_since_last_refresh: int = 0
@@ -21,8 +22,8 @@ func _physics_process(_delta: float) -> void:
 func process_text(_input: String = "") -> void:
 	var unacquired_list: String = "Unaquired: "
 	var unacquired_num: int = 0
-	var extras: Dictionary = {}
-	var extras_string: String = "extras: "
+	var duplicates: Dictionary = {}
+	var duplicates_string: String = "duplicates: "
 	var out_of_range: String = "Out of Range: "
 	var play_sets: String = "Playsets: "
 	for i in int($VBoxContainer/Range/Max.text) - int($VBoxContainer/Range/Min.text) + 1:
@@ -40,22 +41,34 @@ func process_text(_input: String = "") -> void:
 			keys.append(str(key))
 		for key in keys:
 			if Saves.data[$VBoxContainer/SetID/SetID.text][key] > 0:
-				extras[key] = Saves.data[$VBoxContainer/SetID/SetID.text][key]
+				duplicates[key] = Saves.data[$VBoxContainer/SetID/SetID.text][key]
 			if Saves.data[$VBoxContainer/SetID/SetID.text][key] >= 4:
 				play_sets = play_sets + str(key) + " "
 			if int(key) > int($VBoxContainer/Range/Max.text) or int(key) < int($VBoxContainer/Range/Min.text):
 				out_of_range = out_of_range + "[" + str(key) + ", " + str(Saves.data[$VBoxContainer/SetID/SetID.text][key]) + "] "
-	for key in extras:
-		if extras[key] > 1:
-			extras_string = extras_string + " [" + str(key) + ", " + str(extras[key] - 1) + "] " 
-	$VBoxContainer/RichTextLabel.text = (
-		unacquired_list + "\nunacquired num = " + str(unacquired_num) + "\n\n" + extras_string + "\n\n" + out_of_range + "\n\n" + play_sets + "\n\n\n All cards: " + str(Saves.data.get($VBoxContainer/SetID/SetID.text, "No cards")) + "\n\n\nLast Input: " + str(last_input)
-	)
+	for key in duplicates:
+		if duplicates[key] > 1:
+			duplicates_string = duplicates_string + " [" + str(key) + ", " + str(duplicates[key] - 1) + "] "
+	var final_string = ""
+	if $VBoxContainer/HBoxContainer/Unacquired.button_pressed:
+		final_string = final_string + unacquired_list + "\nunacquired num = " + str(unacquired_num)
+	if $VBoxContainer/HBoxContainer/Duplicate.button_pressed:
+		final_string = final_string + "\n\n" + duplicates_string
+	if $VBoxContainer/HBoxContainer/OutOfRange.button_pressed:
+		final_string = final_string + "\n\n" + out_of_range
+	if $VBoxContainer/HBoxContainer/PlaySets.button_pressed:
+		final_string = final_string + "\n\n" + play_sets + "\n\n\n All cards: " + str(Saves.data.get($VBoxContainer/SetID/SetID.text, "No cards")) 
+	final_string = final_string + "\n\n\nLast Input: " + str(last_input)
+	$VBoxContainer/RichTextLabel.text = final_string
 
 
 func _on_card_submitted(new_text: String) -> void:
 	if new_text != "":
 		Saves.set_value($VBoxContainer/SetID/SetID.text, str(int(new_text)), int(Saves.get_or_return($VBoxContainer/SetID/SetID.text, new_text, 0) + 1))
+		if Saves.get_or_return($VBoxContainer/SetID/SetID.text, new_text, 1) == 1:
+			$VBoxContainer/ColorRect.color = Color.GREEN
+		else:
+			$VBoxContainer/ColorRect.color = Color.RED
 	last_input = int(new_text)
 	process_text()
 	$VBoxContainer/Add.text = ""
@@ -77,3 +90,7 @@ func _on_copy_all_button_pressed() -> void:
 func _on_copy_set_pressed() -> void:
 		if Saves.data is Dictionary and Saves.data.has($VBoxContainer/SetID/SetID.text) and Saves.data[$VBoxContainer/SetID/SetID.text] is Dictionary:
 			DisplayServer.clipboard_set(str(Saves.data[$VBoxContainer/SetID/SetID.text]))
+
+
+func set_new_card_display(enabled: bool) -> void:
+	$VBoxContainer/ColorRect.visible = enabled
