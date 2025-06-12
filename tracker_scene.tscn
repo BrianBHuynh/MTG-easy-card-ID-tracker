@@ -5,124 +5,128 @@
 [node name="TrackerScene" type="Node2D"]
 script = ExtResource("1_3jpjp")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-clip_contents = true
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
 offset_right = 1920.0
 offset_bottom = 1080.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+clip_contents = true
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="SetID" type="HBoxContainer" parent="VBoxContainer"]
+[node name="SetID" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer/SetID"]
+[node name="RichTextLabel" type="RichTextLabel" parent="HBoxContainer/VBoxContainer/SetID"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Set ID"
 fit_content = true
 
-[node name="SetID" type="LineEdit" parent="VBoxContainer/SetID"]
+[node name="SetID" type="LineEdit" parent="HBoxContainer/VBoxContainer/SetID"]
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "SetID"
 
-[node name="Range" type="HBoxContainer" parent="VBoxContainer"]
+[node name="Range" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
 clip_contents = true
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.1
 
-[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer/Range"]
+[node name="RichTextLabel" type="RichTextLabel" parent="HBoxContainer/VBoxContainer/Range"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Looking for (Min and Max)
 "
 fit_content = true
 
-[node name="Min" type="LineEdit" parent="VBoxContainer/Range"]
+[node name="Min" type="LineEdit" parent="HBoxContainer/VBoxContainer/Range"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "1"
 placeholder_text = "Min"
 
-[node name="Max" type="LineEdit" parent="VBoxContainer/Range"]
+[node name="Max" type="LineEdit" parent="HBoxContainer/VBoxContainer/Range"]
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Max"
 
-[node name="Add" type="LineEdit" parent="VBoxContainer"]
+[node name="Add" type="LineEdit" parent="HBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Add Card"
 keep_editing_on_text_submit = true
 
-[node name="Remove" type="LineEdit" parent="VBoxContainer"]
+[node name="Remove" type="LineEdit" parent="HBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Remove Card"
 keep_editing_on_text_submit = true
 
-[node name="CopySet" type="Button" parent="VBoxContainer"]
+[node name="CopySet" type="Button" parent="HBoxContainer/VBoxContainer"]
 layout_mode = 2
 text = "Copy Set
 "
 
-[node name="CopyAll" type="Button" parent="VBoxContainer"]
+[node name="CopyAll" type="Button" parent="HBoxContainer/VBoxContainer"]
 layout_mode = 2
 text = "Copy all data"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+clip_contents = true
 layout_mode = 2
 
-[node name="Unacquired" type="CheckBox" parent="VBoxContainer/HBoxContainer"]
+[node name="Unacquired" type="CheckBox" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 button_pressed = true
 text = "List Unacquired |"
 
-[node name="Duplicate" type="CheckBox" parent="VBoxContainer/HBoxContainer"]
+[node name="Duplicate" type="CheckBox" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "List Duplicates (cards with quantity >= 4) |"
 
-[node name="OutOfRange" type="CheckBox" parent="VBoxContainer/HBoxContainer"]
+[node name="OutOfRange" type="CheckBox" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "List out of range cards |"
 
-[node name="PlaySets" type="CheckBox" parent="VBoxContainer/HBoxContainer"]
+[node name="PlaySets" type="CheckBox" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "List Playsets (Cards you have 4+ of)"
 
-[node name="AllCardsInSet" type="CheckBox" parent="VBoxContainer/HBoxContainer"]
+[node name="AllCardsInSet" type="CheckBox" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "List cards in set"
 
-[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer"]
+[node name="RichTextLabel" type="RichTextLabel" parent="HBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="CheckBox" type="CheckBox" parent="VBoxContainer"]
+[node name="CheckBox" type="CheckBox" parent="HBoxContainer/VBoxContainer"]
 layout_mode = 2
 button_pressed = true
 text = "Enable New Card Display (If the card is not found, it will be GREEN, if it is already found, it will be RED)"
 
-[node name="ColorRect" type="ColorRect" parent="VBoxContainer"]
+[node name="ColorRect" type="ColorRect" parent="HBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-size_flags_stretch_ratio = 0.25
+size_flags_stretch_ratio = 0.35
 color = Color(0, 0, 0, 1)
 
-[connection signal="text_changed" from="VBoxContainer/SetID/SetID" to="." method="set_settings"]
-[connection signal="text_submitted" from="VBoxContainer/SetID/SetID" to="." method="process_text"]
-[connection signal="text_changed" from="VBoxContainer/Range/Min" to="." method="set_settings"]
-[connection signal="text_submitted" from="VBoxContainer/Range/Min" to="." method="process_text"]
-[connection signal="text_changed" from="VBoxContainer/Range/Max" to="." method="set_settings"]
-[connection signal="text_submitted" from="VBoxContainer/Range/Max" to="." method="process_text"]
-[connection signal="text_submitted" from="VBoxContainer/Add" to="." method="_on_card_submitted"]
-[connection signal="text_submitted" from="VBoxContainer/Remove" to="." method="_on_card_removed"]
-[connection signal="pressed" from="VBoxContainer/CopySet" to="." method="_on_copy_set_pressed"]
-[connection signal="pressed" from="VBoxContainer/CopyAll" to="." method="_on_copy_all_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/HBoxContainer/Unacquired" to="." method="process_text"]
-[connection signal="pressed" from="VBoxContainer/HBoxContainer/Duplicate" to="." method="process_text"]
-[connection signal="pressed" from="VBoxContainer/HBoxContainer/OutOfRange" to="." method="process_text"]
-[connection signal="pressed" from="VBoxContainer/HBoxContainer/PlaySets" to="." method="process_text"]
-[connection signal="pressed" from="VBoxContainer/HBoxContainer/AllCardsInSet" to="." method="process_text"]
-[connection signal="toggled" from="VBoxContainer/CheckBox" to="." method="set_new_card_display"]
+[connection signal="text_changed" from="HBoxContainer/VBoxContainer/SetID/SetID" to="." method="set_settings"]
+[connection signal="text_submitted" from="HBoxContainer/VBoxContainer/SetID/SetID" to="." method="process_text"]
+[connection signal="text_changed" from="HBoxContainer/VBoxContainer/Range/Min" to="." method="set_settings"]
+[connection signal="text_submitted" from="HBoxContainer/VBoxContainer/Range/Min" to="." method="process_text"]
+[connection signal="text_changed" from="HBoxContainer/VBoxContainer/Range/Max" to="." method="set_settings"]
+[connection signal="text_submitted" from="HBoxContainer/VBoxContainer/Range/Max" to="." method="process_text"]
+[connection signal="text_submitted" from="HBoxContainer/VBoxContainer/Add" to="." method="_on_card_submitted"]
+[connection signal="text_submitted" from="HBoxContainer/VBoxContainer/Remove" to="." method="_on_card_removed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/CopySet" to="." method="_on_copy_set_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/CopyAll" to="." method="_on_copy_all_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/HBoxContainer/Unacquired" to="." method="process_text"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/HBoxContainer/Duplicate" to="." method="process_text"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/HBoxContainer/OutOfRange" to="." method="process_text"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/HBoxContainer/PlaySets" to="." method="process_text"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/HBoxContainer/AllCardsInSet" to="." method="process_text"]
+[connection signal="toggled" from="HBoxContainer/VBoxContainer/CheckBox" to="." method="set_new_card_display"]
