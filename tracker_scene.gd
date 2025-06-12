@@ -11,6 +11,7 @@ func _ready() -> void:
 	process_text()
 	while($VBoxContainer/Range/Min == null and Saves.save_loaded == false):
 		await get_tree().process_frame
+	$VBoxContainer/SetID/SetID.text = Saves.get_or_return("Settings", "set_id", "")
 	$VBoxContainer/Range/Min.text = Saves.get_or_return("Settings", "min", "1")
 	$VBoxContainer/Range/Max.text = Saves.get_or_return("Settings", "max", "1")
 
@@ -110,7 +111,12 @@ func set_new_card_display(enabled: bool) -> void:
 	$VBoxContainer/ColorRect.visible = enabled
 
 
-func set_min_max(_text: String) -> void:
+func set_settings(_text: String) -> void:
+	Saves.set_value("Settings", "set_id", $VBoxContainer/SetID/SetID.text)
 	Saves.set_value("Settings", "min", $VBoxContainer/Range/Min.text)
 	Saves.set_value("Settings", "max", $VBoxContainer/Range/Max.text)
 	Saves.save_game()
+
+
+func _on_set_id_text_changed(new_text: String) -> void:
+	pass # Replace with function body.

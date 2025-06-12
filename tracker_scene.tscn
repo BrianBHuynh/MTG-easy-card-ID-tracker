@@ -110,10 +110,11 @@ size_flags_vertical = 3
 size_flags_stretch_ratio = 0.25
 color = Color(0, 0, 0, 1)
 
+[connection signal="text_changed" from="VBoxContainer/SetID/SetID" to="." method="set_settings"]
 [connection signal="text_submitted" from="VBoxContainer/SetID/SetID" to="." method="process_text"]
-[connection signal="text_changed" from="VBoxContainer/Range/Min" to="." method="set_min_max"]
+[connection signal="text_changed" from="VBoxContainer/Range/Min" to="." method="set_settings"]
 [connection signal="text_submitted" from="VBoxContainer/Range/Min" to="." method="process_text"]
-[connection signal="text_changed" from="VBoxContainer/Range/Max" to="." method="set_min_max"]
+[connection signal="text_changed" from="VBoxContainer/Range/Max" to="." method="set_settings"]
 [connection signal="text_submitted" from="VBoxContainer/Range/Max" to="." method="process_text"]
 [connection signal="text_submitted" from="VBoxContainer/Add" to="." method="_on_card_submitted"]
 [connection signal="text_submitted" from="VBoxContainer/Remove" to="." method="_on_card_removed"]
