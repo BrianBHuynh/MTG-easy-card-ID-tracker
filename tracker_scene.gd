@@ -14,8 +14,6 @@ func _ready() -> void:
 	$HBoxContainer/VBoxContainer/SetID/SetID.text = Saves.get_or_return("Settings", "set_id", "")
 	$HBoxContainer/VBoxContainer/Range/Min.text = Saves.get_or_return("Settings", "min", "1")
 	$HBoxContainer/VBoxContainer/Range/Max.text = Saves.get_or_return("Settings", "max", "1")
-	get_tree().root.size_changed.connect(display_changed_size)
-	display_changed_size()
 
 
 func _physics_process(_delta: float) -> void:
@@ -25,10 +23,6 @@ func _physics_process(_delta: float) -> void:
 	else:
 		time_since_last_refresh = time_since_last_refresh + 1
 
-
-func display_changed_size() -> void:
-	$HBoxContainer/VBoxContainer.size = get_tree().root.size
-	$HBoxContainer.size = get_tree().root.size
 
 func process_text(_input: String = "") -> void:
 	var unacquired_list: String = "Unaquired: "
