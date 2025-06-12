@@ -50,13 +50,13 @@ func process_text(_input: String = "") -> void:
 			if Saves.data[$VBoxContainer/SetID/SetID.text][key] >= 4:
 				play_sets = play_sets + str(key) + " "
 			if int(key) > int($VBoxContainer/Range/Max.text) or int(key) < int($VBoxContainer/Range/Min.text):
-				out_of_range = out_of_range + "[" + str(key) + ", " + str(Saves.data[$VBoxContainer/SetID/SetID.text][key]) + "] "
+				out_of_range = out_of_range + " [" + str(key) + " , " + str(int(Saves.data[$VBoxContainer/SetID/SetID.text][key])) + "] "
 	for key in duplicates:
 		if duplicates[key] > 1:
-			duplicates_string = duplicates_string + " [" + str(key) + ", " + str(duplicates[key] - 1) + "] "
+			duplicates_string = duplicates_string + " [" + str(key) + " , " + str(int(duplicates[key] - 1)) + "] "
 	var final_string = ""
 	if $VBoxContainer/HBoxContainer/Unacquired.button_pressed:
-		final_string = final_string + unacquired_list + "\nunacquired num = " + str(unacquired_num)
+		final_string = final_string + unacquired_list + "\nunacquired num = " + str(int(unacquired_num))
 	if $VBoxContainer/HBoxContainer/Duplicate.button_pressed:
 		final_string = final_string + "\n\n" + duplicates_string
 	if $VBoxContainer/HBoxContainer/OutOfRange.button_pressed:
@@ -71,7 +71,10 @@ func process_text(_input: String = "") -> void:
 		var temp_2_electric_boogalo: Dictionary = {}
 		for card in temp:
 			temp_2_electric_boogalo.set(card, int(Saves.get_or_return($VBoxContainer/SetID/SetID.text, str(card), "0")))
-		final_string = final_string + "\n\n\n All cards: " + str(temp_2_electric_boogalo) 
+		var all_cards: String = "\n\n\n All cards: "
+		for key in temp_2_electric_boogalo:
+			all_cards = all_cards + " [" + str(key) + " , " + str(temp_2_electric_boogalo[key]) + "] "
+		final_string = final_string + all_cards
 		
 	final_string = final_string + "\n\n\nLast Input: " + str(last_input)
 	$VBoxContainer/RichTextLabel.text = final_string
@@ -116,7 +119,3 @@ func set_settings(_text: String) -> void:
 	Saves.set_value("Settings", "min", $VBoxContainer/Range/Min.text)
 	Saves.set_value("Settings", "max", $VBoxContainer/Range/Max.text)
 	Saves.save_game()
-
-
-func _on_set_id_text_changed(new_text: String) -> void:
-	pass # Replace with function body.
